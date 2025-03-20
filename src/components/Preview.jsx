@@ -49,20 +49,22 @@ const Preview = ({ code, importMap }) => {
   }, [code, importMap]);
 
   return (
-    <div className="preview-container">
+    <div className="preview-content">
       {error && (
-        <div className="error" style={{ margin: '8px' }}>
+        <div className="error">
           <h3>渲染错误</h3>
           <pre>{error}</pre>
         </div>
       )}
-      <iframe
-        ref={iframeRef}
-        src={iframeUrl}
-        title="预览"
-        sandbox="allow-scripts allow-modals allow-forms allow-same-origin"
-        className="preview-iframe"
-      />
+      <div className="preview-frame-container">
+        <iframe
+          ref={iframeRef}
+          src={iframeUrl}
+          title="预览"
+          sandbox="allow-scripts allow-modals allow-forms allow-same-origin"
+          className="preview-iframe"
+        />
+      </div>
     </div>
   );
 };

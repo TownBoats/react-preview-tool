@@ -24,7 +24,7 @@ const Editor = ({ value, onChange }) => {
   }, []);
 
   return (
-    <div className="editor-container">
+    <div className="editor-content">
       <MonacoEditor
         height="100%"
         defaultLanguage="javascript"
@@ -36,6 +36,7 @@ const Editor = ({ value, onChange }) => {
           wordWrap: 'on',
           scrollBeyondLastLine: false,
           smoothScrolling: true,
+          padding: { top: 12, bottom: 12 },
         }}
       />
     </div>

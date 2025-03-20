@@ -72,20 +72,35 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background-color: #f9fafb;
 }
 
 .header {
-  height: 50px;
-  background-color: #282c34;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
   display: flex;
-  align-items: center;
-  padding: 0 16px;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .header h1 {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   margin: 0;
+  font-weight: 600;
+}
+
+.header-subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-top: 4px;
 }
 
 .main-content {
@@ -93,30 +108,87 @@ button:focus-visible {
   flex-direction: column;
   flex: 1;
   overflow: hidden;
+  padding: 16px;
 }
 
-.top-controls {
-  padding: 8px;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #ddd;
+/* 功能横幅 */
+.feature-banner {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
+.feature-card {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-right: 16px;
+}
+
+.feature-text h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.feature-text p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* 编辑器和预览区域 */
 .editor-preview-container {
   display: flex;
   flex: 1;
+  gap: 16px;
   overflow: hidden;
 }
 
-.editor-container {
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.editor-panel {
   flex: 0.45;
-  overflow: hidden;
-  position: relative;
 }
 
-.preview-container {
+.preview-panel {
   flex: 0.55;
-  overflow: hidden;
-  position: relative;
+}
+
+.panel-header {
+  padding: 12px 16px;
+  background-color: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #4b5563;
 }
 
 .preview-iframe {
@@ -128,9 +200,25 @@ button:focus-visible {
 
 .error {
   color: #e53935;
-  padding: 8px 16px;
+  padding: 12px 16px;
   border-left: 4px solid #e53935;
-  background-color: rgba(229, 57, 53, 0.1);
+  background-color: rgba(229, 57, 53, 0.08);
+  margin: 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.error h3 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.error pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 0.85rem;
 }
 
 /* 依赖管理器样式 */
@@ -363,3 +451,40 @@ button:focus-visible {
   border-color: #1890ff;
   color: #1890ff;
 }
+
+/* 编辑器内容区域 */
+.editor-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 预览内容区域 */
+.preview-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.preview-frame-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  border-radius: 0 0 8px 8px;
+}
+
+.preview-container {
+  flex: 0.55;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: white;
+}
+

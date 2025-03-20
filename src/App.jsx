@@ -66,13 +66,24 @@ function App() {
 
   return (
     <Layout>
+      <div className="library-info-banner">
+        <p>目前支持 Tailwind CSS、D3 和 Lucide 图标库，其余的库还不太理想</p>
+      </div>
 
-      
-
-      
       <div className="editor-preview-container">
-        <Editor value={code} onChange={handleCodeChange} />
-        <Preview code={compiledCode} importMap={importMap} />
+        <div className="panel editor-panel">
+          <div className="panel-header">
+            <h2>编辑器</h2>
+          </div>
+          <Editor value={code} onChange={handleCodeChange} />
+        </div>
+        
+        <div className="panel preview-panel">
+          <div className="panel-header">
+            <h2>预览</h2>
+          </div>
+          <Preview code={compiledCode} importMap={importMap} />
+        </div>
       </div>
     </Layout>
   );
