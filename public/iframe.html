@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React预览</title>
+  <!-- 预加载Tailwind CSS -->
+  <link id="tailwind-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    #root {
+      padding: 16px;
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background-color: #f9fafb;
+      box-sizing: border-box;
+    }
+    .error {
+      color: #e53935;
+      padding: 8px 16px;
+      border-left: 4px solid #e53935;
+      background-color: rgba(229, 57, 53, 0.1);
+    }
+    
+    /* 确保内容自适应宽度 */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    
+    /* 使组件自适应容器宽度 */
+    .mx-auto {
+      width: 100%;
+      max-width: 100%;
+    }
+  </style>
+  <!-- 默认importmap -->
+  <script type="importmap" id="import-map">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime",
+        "d3": "https://esm.sh/d3@7.8.5",
+        "lucide-react": "https://esm.sh/lucide-react@0.263.1"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="module">
+    // 导入React和ReactDOM
+    import React from 'react';
+    import * as ReactDOMClient from 'react-dom/client';
+    
+    // 将React和ReactDOM设置为全局变量，供注入的用户代码使用
+    window.React = React;
+    window.ReactDOM = ReactDOMClient;
+    
+    // 添加全局错误处理器
+    window.addEventListener('error', function(e) {
+      // 向父窗口报告错误
+      if (e.error) {
+        window.parent.postMessage({ 
+          type: 'componentError', 
+          error: `脚本错误: ${e.error.message || '未知错误'}`
+        }, '*');
+      }
+      
+      // 在控制台显示详细错误信息
+      console.error('捕获到错误:', e.error);
+    });
+    
+    // 将React的所有Hooks函数暴露为全局函数
+    window.useState = React.useState;
+    window.useEffect = React.useEffect;
+    window.useContext = React.useContext;
+    window.useReducer = React.useReducer;
+    window.useCallback = React.useCallback;
+    window.useMemo = React.useMemo;
+    window.useRef = React.useRef;
+    window.useImperativeHandle = React.useImperativeHandle;
+    window.useLayoutEffect = React.useLayoutEffect;
+    window.useDebugValue = React.useDebugValue;
+    window.useDeferredValue = React.useDeferredValue;
+    window.useTransition = React.useTransition;
+    window.useId = React.useId;
+    window.useSyncExternalStore = React.useSyncExternalStore;
+    window.useInsertionEffect = React.useInsertionEffect;
+    
+    // 处理图片占位符
+    const originalFetch = window.fetch;
+    window.fetch = function(url, options) {
+      if (url && typeof url === 'string' && url.startsWith('/api/placeholder')) {
+        // 将占位符API URL替换为实际的图片服务
+        const dims = url.split('/').slice(-2);
+        return originalFetch(`https://picsum.photos/${dims[0]}/${dims[1]}`, options);
+      }
+      return originalFetch(url, options);
+    };
+    
+    // 处理占位符图片
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+      const element = originalCreateElement.call(document, tag);
+      if (tag.toLowerCase() === 'img') {
+        const originalSetAttribute = element.setAttribute;
+        element.setAttribute = function(name, value) {
+          if (name === 'src' && value && typeof value === 'string' && value.startsWith('/api/placeholder')) {
+            const dims = value.split('/').slice(-2);
+            value = `https://picsum.photos/${dims[0]}/${dims[1]}`;
+          }
+          return originalSetAttribute.call(this, name, value);
+        };
+      }
+      return element;
+    };
+    
+    // 监听来自父窗口的消息
+    window.addEventListener('message', (event) => {
+      const { type, code, importMap } = event.data;
+      
+      if (type === 'update' && code) {
+        // 如果提供了importMap，则更新它
+        if (importMap) {
+          const importMapScript = document.getElementById('import-map');
+          if (importMapScript) {
+            importMapScript.remove();
+          }
+          
+          try {
+            // 解析importMap，确保它是有效的JSON
+            const parsedImportMap = JSON.parse(importMap);
+            
+            // 添加脚本
+            const newImportMapScript = document.createElement('script');
+            newImportMapScript.id = 'import-map';
+            newImportMapScript.type = 'importmap';
+            newImportMapScript.textContent = JSON.stringify(parsedImportMap, null, 2);
+            document.head.appendChild(newImportMapScript);
+          } catch (error) {
+            console.error('解析importMap时出错:', error);
+          }
+        }
+        
+        // 清除上一次渲染的内容
+        document.getElementById('root').innerHTML = '';
+        
+        // 创建或更新脚本元素
+        let scriptElement = document.getElementById('user-code');
+        if (scriptElement) {
+          scriptElement.remove();
+        }
+        
+        try {
+          // 清除现有的组件，以防多次执行相同名称的组件导致命名冲突
+          for (const key in window) {
+            if (/^[A-Z]/.test(key) && typeof window[key] === 'function' && key !== 'React' && key !== 'ReactDOM') {
+              delete window[key];
+            }
+          }
+          
+          // 创建一个模块脚本，以支持import语句
+          const wrappedCode = `
+            // 不再在这里无条件导入d3，让用户代码自己导入
+            // 用户代码开始
+            ${code}
+            // 用户代码结束
+            
+            // 导出检测 - 查找并导出组件到全局作用域
+            // 尝试获取任何导出的组件
+            try {
+              // 优先查找通过Babel插件转换后直接导出到window的组件
+              if (typeof window.DefaultComponent !== 'undefined') {
+                window.parent.postMessage({ type: 'componentReady', component: 'DefaultComponent' }, '*');
+              }
+              // 特殊处理特定组件名
+              else if (typeof window.Dashboard !== 'undefined') {
+                window.DefaultComponent = window.Dashboard;
+                window.parent.postMessage({ type: 'componentReady', component: 'Dashboard' }, '*');
+              }
+              else if (typeof window.D3TailwindExample !== 'undefined') {
+                window.DefaultComponent = window.D3TailwindExample;
+                window.parent.postMessage({ type: 'componentReady', component: 'D3TailwindExample' }, '*');
+              }
+              // 查找模块内的其他组件
+              else {
+                // 安全地获取全局作用域中的所有属性
+                const globalKeys = Object.getOwnPropertyNames(window).filter(key => 
+                  typeof window[key] === 'function' && 
+                  /^[A-Z]/.test(key) &&
+                  key !== 'React' &&
+                  key !== 'ReactDOM'
+                );
+                
+                if (globalKeys.length > 0) {
+                  // 找到的第一个组件作为默认组件
+                  window.DefaultComponent = window[globalKeys[0]];
+                  window.parent.postMessage({ type: 'componentReady', component: globalKeys[0] }, '*');
+                } else {
+                  // 没有找到组件，通知父级
+                  window.parent.postMessage({ 
+                    type: 'componentError', 
+                    error: '找不到可渲染的React组件。请确保您的代码导出或定义了一个组件。(导出名应以大写字母开头)'
+                  }, '*');
+                }
+              }
+            } catch (error) {
+              // 如果出现错误，通知父级
+              window.parent.postMessage({ 
+                type: 'componentError', 
+                error: '组件加载错误: ' + error.message
+              }, '*');
+            }
+          `;
+          
+          const blob = new Blob([wrappedCode], { type: 'text/javascript' });
+          const scriptURL = URL.createObjectURL(blob);
+          
+          // 创建一个模块脚本标签
+          const scriptElement = document.createElement('script');
+          scriptElement.id = 'user-code';
+          scriptElement.type = 'module';
+          scriptElement.src = scriptURL;
+          
+          // 添加监听器，在脚本加载完成后检查是否有组件
+          window.addEventListener('message', function componentReadyHandler(event) {
+            if (event.data.type === 'componentReady') {
+              // 组件已经准备好，进行渲染
+              // 移除这个监听器，避免重复处理
+              window.removeEventListener('message', componentReadyHandler);
+              
+              try {
+                // 使用DefaultComponent或找到的其他组件进行渲染
+                const ComponentToRender = window.DefaultComponent;
+                if (ComponentToRender) {
+                  try {
+                    // 使用React.StrictMode包裹组件，提供更好的开发时错误检测
+                    const root = ReactDOMClient.createRoot(document.getElementById('root'));
+                    root.render(
+                      React.createElement(
+                        React.StrictMode, 
+                        null, 
+                        React.createElement(ComponentToRender)
+                      )
+                    );
+                  } catch (error) {
+                    console.error("渲染组件错误:", error);
+                    document.getElementById('root').innerHTML = '<div class="error"><h2>渲染错误</h2><pre>' + error.message + '</pre></div>';
+                    
+                    // 向父窗口报告详细错误
+                    window.parent.postMessage({ 
+                      type: 'componentError', 
+                      error: `组件渲染错误: ${error.message}`
+                    }, '*');
+                  }
+                }
+              } catch (error) {
+                console.error("渲染组件错误:", error);
+                document.getElementById('root').innerHTML = '<div class="error"><h2>渲染错误</h2><pre>' + error.message + '</pre></div>';
+              }
+            } else if (event.data.type === 'componentError') {
+              // 处理组件错误
+              window.removeEventListener('message', componentReadyHandler);
+              document.getElementById('root').innerHTML = '<div class="error"><h2>错误</h2><pre>' + event.data.error + '</pre></div>';
+            }
+          });
+          
+          // 添加脚本到文档
+          document.body.appendChild(scriptElement);
+        } catch (error) {
+          console.error('执行错误:', error);
+          document.getElementById('root').innerHTML = 
+            `<div class="error">
+              <h2>执行错误</h2>
+              <pre>${error.message}</pre>
+              <pre>${error.stack}</pre>
+            </div>`;
+        }
+      }
+    });
+    
+    // 通知父窗口iframe已准备好
+    window.parent.postMessage({ type: 'ready' }, '*');
+  </script>
+</body>
+</html> 

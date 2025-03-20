@@ -1,0 +1,486 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  height: 50px;
+  background-color: #282c34;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.top-controls {
+  padding: 8px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+
+.editor-preview-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.editor-container {
+  flex: 0.45;
+  overflow: hidden;
+  position: relative;
+}
+
+.preview-container {
+  flex: 0.55;
+  overflow: hidden;
+  position: relative;
+}
+
+.preview-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: white;
+}
+
+.error {
+  color: #e53935;
+  padding: 8px 16px;
+  border-left: 4px solid #e53935;
+  background-color: rgba(229, 57, 53, 0.1);
+}
+
+/* 依赖管理器样式 */
+.dependency-manager {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.add-dependency-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-dependency-button:hover {
+  background-color: #388e3c;
+}
+
+.current-dependencies {
+  flex: 1;
+}
+
+.current-dependencies h3 {
+  margin: 0;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.current-dependencies ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.current-dependencies li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #e3f2fd;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.remove-button {
+  background-color: transparent;
+  border: none;
+  color: #f44336;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+}
+
+.remove-button:hover {
+  text-decoration: underline;
+}
+
+/* 模态框样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 24px;
+  width: 500px;
+  max-width: 90vw;
+}
+
+.modal h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.quick-add {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.quick-add h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.package-category {
+  margin-bottom: 12px;
+}
+
+.package-category h5 {
+  margin: 12px 0 8px 0;
+  font-size: 14px;
+  color: #666;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 4px;
+}
+
+.package-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.package-buttons button {
+  background-color: #e3f2fd;
+  border: 1px solid #bbdefb;
+  color: #1565c0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.package-buttons button:hover {
+  background-color: #bbdefb;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-actions button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.modal-actions button:first-child {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.modal-actions button:last-child {
+  background-color: #2196f3;
+  border: none;
+  color: white;
+}
+
+.modal-actions button:last-child:hover {
+  background-color: #1976d2;
+}
+
+.modal-actions button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* 示例提示框样式 */
+.example-prompt {
+  margin: 8px 16px;
+  padding: 8px 16px;
+  background-color: #e6f7ff;
+  border: 1px solid #91d5ff;
+  border-radius: 4px;
+}
+
+.example-prompt-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.example-prompt-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.load-example-button {
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.load-example-button:hover {
+  background-color: #40a9ff;
+}
+
+.dismiss-button {
+  background-color: #f0f0f0;
+  border: 1px solid #d9d9d9;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dismiss-button:hover {
+  background-color: #fafafa;
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+/* 添加全屏和清空按钮样式 */
+.preview-controls, .editor-controls {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+
+.control-button {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background-color 0.2s;
+}
+
+.control-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 全屏模式样式 */
+.fullscreen-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background: white;
+}
+
+.fullscreen-preview .preview-iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.exit-fullscreen-button {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1001;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.exit-fullscreen-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 拖动调整大小的分隔线 */
+.resize-handle {
+  width: 10px;
+  background-color: #f0f0f0;
+  cursor: col-resize;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.resize-handle:hover, .resize-handle.active {
+  background-color: #d0d0d0;
+}
+
+.resize-handle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 30px;
+  background-color: #c0c0c0;
+  border-radius: 1px;
+}
+
+/* 库支持提示区域 */
+.supported-libraries {
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #666;
+}
+
+.supported-libraries h3 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.supported-libraries-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.supported-libraries-list li {
+  background-color: #e3f2fd;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #0d47a1;
+  border: 1px solid #bbdefb;
+}
