@@ -56,6 +56,15 @@ const transformCode = (code) => {
       }
     );
     
+    // 确保使用相同的React实例
+    transformedCode = `
+      import React from 'react';
+      const useRechartsReact = React;
+      window.__REACT_FOR_RECHARTS__ = React;
+      
+      ${transformedCode}
+    `;
+    
     return transformedCode;
   } catch (error) {
     return `

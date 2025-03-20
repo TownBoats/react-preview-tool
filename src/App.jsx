@@ -3,7 +3,6 @@ import Layout from './components/Layout';
 import Editor from './components/Editor';
 import Preview from './components/Preview';
 import { defaultCode } from './utils/default-code';
-import { libraryExamples } from './utils/library-examples';
 import './App.css';
 
 function App() {
@@ -13,7 +12,8 @@ function App() {
     imports: {
       'react': 'https://esm.sh/react@18.2.0',
       'react-dom/client': 'https://esm.sh/react-dom@18.2.0/client',
-      'react/jsx-runtime': 'https://esm.sh/react@18.2.0/jsx-runtime'
+      'react/jsx-runtime': 'https://esm.sh/react@18.2.0/jsx-runtime',
+      'recharts': 'https://esm.sh/recharts@2.7.0?deps=react@18.2.0'
     }
   });
   const [showExamplePrompt, setShowExamplePrompt] = useState(null);
@@ -50,13 +50,6 @@ function App() {
   // 检查是否有新添加的库有示例代码
   useEffect(() => {
     const libraryNames = Object.keys(importMap.imports);
-    
-    for (const lib of Object.keys(libraryExamples)) {
-      if (libraryNames.includes(lib) && !showExamplePrompt) {
-        setShowExamplePrompt(lib);
-        break;
-      }
-    }
   }, [importMap]);
 
   const handleCodeChange = (newCode) => {
@@ -65,13 +58,6 @@ function App() {
   
   const handleImportMapChange = (newImportMap) => {
     setImportMap(newImportMap);
-  };
-  
-  const loadExampleCode = (library) => {
-    if (libraryExamples[library]) {
-      setCode(libraryExamples[library]);
-      setShowExamplePrompt(null);
-    }
   };
   
   const dismissExamplePrompt = () => {
