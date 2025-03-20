@@ -67,7 +67,7 @@ function App() {
   return (
     <Layout>
       <div className="library-info-banner">
-        <p>目前支持 Tailwind CSS、D3 和 Lucide 图标库，其余的库还不太理想</p>
+        <p>目前支持 Tailwind CSS、D3 和 Lucide 图标库，其余的库还不太理想，带宽较低，要引入外部库，所以可能要稍等一会</p>
       </div>
 
       <div className="editor-preview-container">
