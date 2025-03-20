@@ -13,6 +13,7 @@
     "@babel/standalone": "^7.26.10",
     "@monaco-editor/react": "^4.7.0",
     "fflate": "^0.8.2",
+    "lodash-es": "^4.17.21",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

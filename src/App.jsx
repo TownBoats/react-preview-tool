@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import Layout from './components/Layout';
 import Editor from './components/Editor';
 import Preview from './components/Preview';
-import DependencyManager from './components/DependencyManager';
 import { defaultCode } from './utils/default-code';
 import { libraryExamples } from './utils/library-examples';
 import './App.css';
@@ -81,34 +80,9 @@ function App() {
 
   return (
     <Layout>
-      <div className="top-controls">
-        <DependencyManager 
-          importMap={importMap}
-          onImportMapChange={handleImportMapChange}
-        />
-      </div>
+
       
-      {showExamplePrompt && (
-        <div className="example-prompt">
-          <div className="example-prompt-content">
-            <span>检测到您添加了 <strong>{showExamplePrompt}</strong> 库。是否加载示例代码？</span>
-            <div className="example-prompt-buttons">
-              <button 
-                className="load-example-button"
-                onClick={() => loadExampleCode(showExamplePrompt)}
-              >
-                加载示例
-              </button>
-              <button 
-                className="dismiss-button"
-                onClick={dismissExamplePrompt}
-              >
-                不用了
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
       
       <div className="editor-preview-container">
         <Editor value={code} onChange={handleCodeChange} />

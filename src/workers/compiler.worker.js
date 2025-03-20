@@ -101,15 +101,8 @@ const localModuleResolverPlugin = () => {
           return;
         }
         
-        // 支持的第三方库列表
-        const supportedLibraries = ['d3', 'lucide-react', 'chart.js', 'recharts'];
-        
         // 对于第三方库（如d3、recharts等），保留原始导入
         // 它们将通过importmap解析
-        if (supportedLibraries.includes(source)) {
-          // 保留导入，不做任何修改
-          return;
-        }
         
         // 只处理相对导入（本地模块）
         if (source.startsWith('./') || source.startsWith('../')) {
