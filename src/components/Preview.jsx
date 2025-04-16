@@ -1,9 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 
-const Preview = ({ code, importMap }) => {
+const Preview = forwardRef(({ code, importMap }, ref) => {
   const iframeRef = useRef(null);
   const iframeUrl = '/iframe.html';
   const [error, setError] = useState(null);
+  const [iframeKey, setIframeKey] = useState(0); // 用于强制重新加载iframe
+  
+  // 暴露刷新方法给父组件
+  useImperativeHandle(ref, () => ({
+    refresh: () => {
+      // 通过改变key值强制重新加载iframe
+      setIframeKey(prevKey => prevKey + 1);
+      setError(null);
+    }
+  }));
   
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -46,7 +56,7 @@ const Preview = ({ code, importMap }) => {
       iframe.removeEventListener('load', handleIframeLoad);
       window.removeEventListener('message', handleIframeMessage);
     };
-  }, [code, importMap]);
+  }, [code, importMap, iframeKey]); // 添加iframeKey作为依赖
 
   return (
     <div className="preview-content">
@@ -58,15 +68,18 @@ const Preview = ({ code, importMap }) => {
       )}
       <div className="preview-frame-container">
         <iframe
+          key={iframeKey} // 添加key强制重新加载
           ref={iframeRef}
           src={iframeUrl}
           title="预览"
           sandbox="allow-scripts allow-modals allow-forms allow-same-origin"
           className="preview-iframe"
+          loading="lazy"
+          allow="fullscreen"
         />
       </div>
     </div>
   );
-};
+});
 
 export default Preview; 

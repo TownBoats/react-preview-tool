@@ -13,6 +13,8 @@ const Editor = ({ value, onChange }) => {
       tabSize: 2,
       scrollBeyondLastLine: false,
       automaticLayout: true,
+      fontFamily: '"JetBrains Mono", "Fira Code", Menlo, Monaco, "Courier New", monospace',
+      fontLigatures: true,
     });
   };
   
@@ -37,6 +39,11 @@ const Editor = ({ value, onChange }) => {
           scrollBeyondLastLine: false,
           smoothScrolling: true,
           padding: { top: 12, bottom: 12 },
+          lineNumbers: 'on',
+          glyphMargin: false,
+          folding: true,
+          lineDecorationsWidth: 10,
+          renderLineHighlight: 'line',
         }}
       />
     </div>
