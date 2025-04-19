@@ -1,22 +1,47 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>React Preview 在线组件预览 | Claude Artifacts平替 | 支持 Tailwind、D3、Lucide 图标</title>
-  <meta name="description"
-    content="React Preview 是一个用于在线预览 React 组件的工具，支持 Tailwind CSS、D3.js 和 Lucide 图标库，适用于构建 artifacts 与 Claude 项目的演示环境。" />
-  <meta name="keywords" content="React, Preview, 在线预览 React 组件, Tailwind CSS, D3.js, Lucide 图标库, Claude, Artifacts" />
-  <meta name="robots" content="index, follow" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Preview 在线组件预览 | Claude Artifacts平替 | 支持 Tailwind、D3、Lucide 图标</title>
 
-</head>
+    <!-- 基础 SEO 元信息 -->
+    <meta name="description" content="React Preview 是一个用于在线预览 React 组件的工具，支持 Tailwind CSS、D3.js 和 Lucide 图标库，适用于构建 artifacts 与 Claude 项目的演示环境。" />
+    <meta name="keywords" content="React, React 组件预览, Preview, 在线运行 React, Tailwind CSS, D3.js, Lucide 图标库, Claude, Artifacts, React 调试工具" />
+    <meta name="robots" content="index, follow" />
 
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
-</body>
+    <!-- Open Graph 社交平台优化 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="React Preview 在线组件预览 | 支持 Tailwind、D3、Lucide 图标" />
+    <meta property="og:description" content="在线运行并预览 React 组件的前端工具，适配 Tailwind、D3 可视化图表、Lucide 图标系统，适合 Claude artifacts 使用。" />
+    <meta property="og:url" content="https://react-preview.com" />
+    <meta property="og:image" content="https://react-preview.com/cover.png" />
 
+    <!-- Twitter Cards 优化（可选） -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="React Preview 在线组件预览工具" />
+    <meta name="twitter:description" content="适用于 Tailwind、D3、Lucide 图标的 React 组件在线预览与调试平台。" />
+    <meta name="twitter:image" content="https://react-preview.com/cover.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+  </head>
+
+  <body>
+    <!-- 无 JS 回退内容 -->
+    <noscript>
+      React Preview 是一个支持在线预览 React 组件的开源工具，适配 Tailwind CSS、D3 可视化图表、Lucide 图标库，是 Claude artifacts 的极佳替代方案。
+    </noscript>
+
+    <div id="root"></div>
+
+    <!-- 页面底部添加 SEO 支持内容 -->
+    <footer style="display:none;">
+      <p>
+        本网站提供 <strong>React 组件</strong> 的可视化预览与在线运行能力，支持 <strong>Tailwind CSS</strong> 样式库、<strong>D3.js 可视化图表</strong>、<strong>Lucide 图标库</strong> 等常用前端生态集成。适用于开发、调试 Claude 相关 artifacts 项目，提升前端开发效率。
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

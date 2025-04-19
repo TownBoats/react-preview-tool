@@ -182,7 +182,7 @@ function App() {
       </div>
 
       <div className="footer-info-banner">
-        <p>目前支持 Tailwind CSS、D3 和 Lucide 图标库，其余的库还没研究清楚。带宽较低，要引入外部库，所以可能要稍等一会渲染。</p>
+        <p>目前支持 Tailwind CSS、D3 和 Lucide 图标库，可能还会有bug，其余的库还没研究清楚。带宽较低，要引入外部库，所以可能要稍等一会渲染。</p>
         <div className="tooltip-container">
           <button 
             className="tooltip-button" 
